@@ -46,7 +46,7 @@ export const Hero = () => {
                 rel="noopener noreferrer" 
                 className="btn-primary w-full sm:w-auto text-center"
               >
-                Initiate Sprint
+                Request quote
               </Link>
               <Link href="/about" className="mono text-[10px] font-medium tracking-widest uppercase border border-border px-8 py-4 hover:bg-foreground hover:text-bg transition-all w-full sm:w-auto text-center">
                 Learn More
