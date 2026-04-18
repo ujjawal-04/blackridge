@@ -19,34 +19,34 @@ export const Hero = () => {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-start md:items-center px-6 md:px-20 overflow-hidden">
+    <section ref={containerRef} className="relative min-h-screen flex items-center px-6 md:px-20 overflow-hidden">
       <div className="absolute inset-0 grid-bg z-0" />
       <div className="flare" />
 
       <div className="relative z-10 max-w-[90rem] w-full mt-10 pt-20 sm:pt-32 md:pt-40 lg:pt-0">
         <div className="grid lg:grid-cols-[1.4fr_1fr] gap-12 items-center">
-          <div className="space-y-8">
-            <h1 className="text-[12vw] sm:text-7xl md:text-8xl lg:text-[7vw] xl:text-[8vw] font-light leading-[0.9] md:leading-[0.8] tracking-tighter uppercase">
+          <div className="space-y-8 text-center lg:text-left">
+            <h1 className="text-[11vw] sm:text-7xl md:text-8xl lg:text-[7vw] xl:text-[8vw] font-light leading-[0.9] md:leading-[0.8] tracking-tighter uppercase">
               ENGINEERING
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--text-grad-start)] via-[var(--text-grad-mid)] to-[var(--text-grad-end)] italic sm:ml-[-1vw] whitespace-nowrap">SCALABLE DIGITAL
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--text-grad-start)] via-[var(--text-grad-mid)] to-[var(--text-grad-end)] italic ml-0 sm:ml-[-1vw] whitespace-normal sm:whitespace-nowrap">SCALABLE DIGITAL
               </span> <br />
               SYSTEMS.
             </h1>
             
-            <p className="text-lg md:text-2xl text-foreground/50 leading-snug md:leading-tight font-light max-w-2xl">
+            <p className="text-lg md:text-2xl text-foreground/50 leading-snug md:leading-tight font-light max-w-2xl mx-auto lg:mx-0">
               We design and build high-performance web platforms, AI solutions,
               and eCommerce systems that scale with your business needs. <br className="hidden md:block" />Zero lag. Infinite scale. Total control.
             </p>
             
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
               <Link 
                 href="https://cal.com/black-ridge" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="btn-primary w-full sm:w-auto text-center"
               >
-                Initiate Sprint
+                Request quote
               </Link>
               <Link href="/about" className="mono text-[10px] font-medium tracking-widest uppercase border border-border px-8 py-4 hover:bg-foreground hover:text-bg transition-all w-full sm:w-auto text-center">
                 Learn More

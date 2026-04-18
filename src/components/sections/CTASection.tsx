@@ -53,7 +53,7 @@ export default function CTASection() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a
-                href="mailto:hello@devz.agency"
+                href="mailto:info@blackridge.co.in"
                 whileHover={{ scale: 1.04, boxShadow: "0 0 50px rgba(139,92,246,0.5)" }}
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-violet-600 shadow-2xl shadow-violet-500/30 transition-shadow duration-300 w-full sm:w-auto justify-center"
@@ -64,7 +64,7 @@ export default function CTASection() {
               </motion.a>
 
               <motion.a
-                href="#"
+                href="mailto:info@blackridge.co.in"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl text-sm font-medium text-slate-300 hover:text-white border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.04] transition-all duration-300 w-full sm:w-auto justify-center"

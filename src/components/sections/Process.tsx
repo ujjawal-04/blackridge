@@ -9,7 +9,7 @@ import { EngineeringDetail } from '@/components/sections/EngineeringDetail';
 import { FaqDetail } from '@/components/sections/FaqDetail';
 
 export const Process = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(-1);
   const steps = ["Discovery", "Our Projects", "Engineering", "FAQs"];
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 

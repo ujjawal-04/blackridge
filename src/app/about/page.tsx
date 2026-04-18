@@ -4,6 +4,7 @@ import React from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { motion } from 'framer-motion';
+import AboutTabletShowcase from '@/components/sections/AboutTabletShowcase';
 
 export default function AboutPage() {
   return (
@@ -33,23 +34,8 @@ export default function AboutPage() {
                   powers high-convexity teams.
                 </p>
               </motion.div>
-              <div className="card-border p-10 bg-surface/50 border-blue-500/10 ml-5 lg:mt-30">
-                <div className="mono text-[10px] text-foreground/30 uppercase tracking-[0.2em] mb-10">
-                  SYSTEM_CAPABILITIES_REPORT / 2026
-                </div>
-                <div className="space-y-8">
-                  {[
-                    { label: 'Cloud Infrastructure', value: 'Global / Multi-Node' },
-                    { label: 'Development Cycle', value: 'High_Velocity' },
-                    { label: 'Security Layer', value: 'Hardened / Zero-Trust' },
-                    { label: 'Design System', value: 'Proprietary / Industrial' },
-                  ].map((stat) => (
-                    <div key={stat.label} className="flex justify-between items-end border-b border-border pb-4 transition-colors hover:border-blue-400 group">
-                      <span className="text-xs text-foreground/40 group-hover:text-foreground">{stat.label}</span>
-                      <span className="mono text-[10px] text-blue-400">{stat.value}</span>
-                    </div>
-                  ))}
-                </div>
+              <div className="ml-0 lg:ml-5 lg:mt-8">
+                <AboutTabletShowcase />
               </div>
             </div>
 

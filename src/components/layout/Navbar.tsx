@@ -69,8 +69,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-[100] px-6 py-4 md:px-12 flex justify-between items-center border-b border-border bg-bg/70 backdrop-blur-xl">
-        <div className="flex items-center gap-8">
+      <nav className="fixed top-0 w-full z-[100] px-3 sm:px-6 py-4 md:px-12 flex justify-start md:justify-between items-center border-b border-border bg-bg/70 backdrop-blur-xl">
+        <div className="flex items-center justify-start gap-8">
           <Link
             href="/"
             onClick={(e) => {
@@ -79,9 +79,9 @@ export default function Navbar() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
             }}
-            className="flex items-center gap-0 group"
+            className="flex items-center gap-1 md:gap-0 group"
           >
-            <div className="relative w-28 h-10 md:w-32 md:h-11 overflow-hidden -mr-9 md:-mr-8 [clip-path:inset(0_38%_0_0)] md:[clip-path:inset(0_34%_0_0)]">
+            <div className="relative w-28 h-10 md:w-32 md:h-11 overflow-hidden -mr-6 md:-mr-8 [clip-path:inset(0_38%_0_0)] md:[clip-path:inset(0_34%_0_0)]">
               <Image
                 src={mounted && resolvedTheme === 'light' ? "/logo2.png" : "/logo1.png"}
                 alt="Black Ridge logo"
@@ -92,7 +92,7 @@ export default function Navbar() {
                 className="object-contain object-left origin-left scale-[1.55] md:scale-[1.5]"
               />
             </div>
-            <span className={`-ml-2.5 md:-ml-3 ${brandWordmarkStyles[activeBrandWordmarkStyle]} group-hover:text-foreground transition-colors`}>
+            <span className={`ml-0 md:-ml-3 ${brandWordmarkStyles[activeBrandWordmarkStyle]} group-hover:text-foreground transition-colors`}>
               BLACKRIDGE
             </span>
           </Link>
@@ -113,7 +113,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4 md:gap-8 lg:gap-12">
+        <div className="ml-auto flex items-center gap-4 md:gap-8 lg:gap-12">
           <div className="hidden sm:flex items-center gap-4 border-x border-border px-8 h-12">
             <span className="mono text-[9px] text-foreground/30 uppercase tracking-widest">Local_Time</span>
             <span className="mono text-[10px] text-foreground/70 tabular-nums shrink-0">{time || '00:00:00_LOCAL'}</span>
@@ -130,7 +130,7 @@ export default function Navbar() {
           <Link
             href="/#contact"
             onClick={handleScroll}
-            className="hidden sm:inline-flex btn-os text-[10px] py-2 px-6"
+            className="!hidden lg:!inline-flex btn-os text-[10px] py-2 px-6"
           >
             Discuss Project
             <ArrowRight size={14} />
@@ -187,7 +187,7 @@ export default function Navbar() {
                   onClick={handleScroll}
                   className="btn-os w-full justify-center text-xs py-3"
                 >
-                  Connect_Cluster
+                  Discuss Project
                   <ArrowRight size={16} />
                 </Link>
               </div>

@@ -16,7 +16,7 @@ export default function Footer() {
           <p>Systems built to scale.</p>
 
           {/* Right */}
-          <p>Available worldwide</p>
+          <a href="mailto:info@blackridge.co.in" className="hover:text-blue-400 transition-colors normal-case tracking-normal">info@blackridge.co.in</a>
 
         </div>
 

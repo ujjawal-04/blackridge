@@ -80,13 +80,10 @@ export const Contact = () => {
             <div className="grid grid-cols-2 gap-8 mono text-[10px] font-medium tracking-widest uppercase text-foreground/50">
               <div className="space-y-4">
                 <p className="text-foreground">Socials</p>
-                <a href="#" className="block hover:text-blue-400">Email</a>
-                <a href="#" className="block hover:text-blue-400">GitHub</a>
-                <a href="#" className="block hover:text-blue-400">LinkedIn</a>
+                <a href="mailto:info@blackridge.co.in" className="block hover:text-blue-400 normal-case tracking-normal">info@blackridge.co.in</a>
               </div>
               <div className="space-y-4">
                 <p className="text-foreground">Locations</p>
-                <p>REMOTE / INDIA</p>
                 <p>AVAILABLE WORLDWIDE</p>
               </div>
             </div>

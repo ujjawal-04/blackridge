@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   description:
     "We build the systems that the world's most ambitious companies run on. Zero lag. Infinite scale. Total control.",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: "/favicon.ico?v=3",
+    shortcut: "/favicon.ico?v=3",
+    apple: "/favicon.ico?v=3",
   },
   keywords: [
     "infrastructure engineering",
@@ -49,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased overflow-x-hidden`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden w-full relative">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
         <Script
