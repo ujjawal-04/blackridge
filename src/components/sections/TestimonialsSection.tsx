@@ -59,7 +59,7 @@ export default function TestimonialsSection() {
             Client Stories
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white tracking-tight">
-            Don't take our{" "}
+            Don&apos;t take our{" "}
             <span className="gradient-text">word for it</span>
           </h2>
         </motion.div>
@@ -75,7 +75,7 @@ export default function TestimonialsSection() {
               transition={{
                 duration: 0.7,
                 delay: i * 0.12,
-                ease: [0.22, 1, 0.36, 1] as any,
+                ease: [0.22, 1, 0.36, 1] as const,
               }}
               className="glass-card p-7 flex flex-col gap-5 border border-white/[0.07]"
             >

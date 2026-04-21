@@ -81,7 +81,7 @@ export default function AboutTabletShowcase() {
         PRODUCT_CREATION_MATRIX / 2026
       </div>
 
-      <div className="relative w-full aspect-[1.45] transition-transform duration-300 ease-out"
+      <div className="relative w-full aspect-[0.92] sm:aspect-[1.1] md:aspect-[1.45] transition-transform duration-300 ease-out"
            style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}>
         <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-[#1c1d20]/80 via-[#070708]/95 to-[#1c1d20]/80 shadow-[0_20px_45px_-22px_rgba(0,0,0,0.75)]">
           <div className="absolute inset-[4px] rounded-[1.75rem] bg-black/90 overflow-hidden">

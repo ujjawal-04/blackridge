@@ -44,7 +44,7 @@ export default function AboutPage() {
               <div>
                 <h2 className="text-3xl font-medium uppercase tracking-tighter mb-6">Our DNA</h2>
                 <p className="text-foreground/50 text-lg leading-relaxed">
-                  We don't believe in generic solutions. Every line of code is
+                  We don&apos;t believe in generic solutions. Every line of code is
                   engineered for a specific outcome. We prioritize speed,
                   security, and scalability above all else. Our approach is
                   founded on the principles of distributed systems and
@@ -58,7 +58,7 @@ export default function AboutPage() {
                   between complex technical requirements and stunning
                   user interfaces. Our team consists of engineers,
                   designers, and problem solvers who thrive on
-                  "impossible" challenges.
+                  &quot;impossible&quot; challenges.
                 </p>
               </div>
 
@@ -72,7 +72,7 @@ export default function AboutPage() {
                   <div className="w-10 h-10 bg-blue-400/10 border border-blue-400/20 flex items-center justify-center mono text-blue-400 text-xs">01</div>
                   <h3 className="text-2xl font-medium uppercase tracking-tighter">Radical Performance</h3>
                   <p className="text-foreground/50 text-sm leading-relaxed">
-                    Speed is not a feature; it's a requirement. We optimize for every millisecond.
+                    Speed is not a feature; it&apos;s a requirement. We optimize for every millisecond.
                   </p>
                 </div>
                 <div className="space-y-6">

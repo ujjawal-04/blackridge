@@ -17,26 +17,48 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 :root {
-  --bg: #ffffff;
-  --surface-low: #f8f9fa;
-  --surface: #f1f5f9;
-  --surface-high: #e2e8f0;
-  --border: rgba(0, 0, 0, 0.1);
-  --border-active: rgba(59, 130, 246, 0.4);
-  --accent: #3b82f6;
+  --bg: #f3f7fd;
+  --surface-low: #edf3fc;
+  --surface: #e5eef9;
+  --surface-high: #d9e6f5;
+  --border: rgba(10, 28, 51, 0.14);
+  --border-active: rgba(15, 111, 255, 0.45);
+  --accent: #0f6fff;
   /* Tech Blue */
-  --accent-soft: rgba(59, 130, 246, 0.1);
+  --accent-soft: rgba(15, 111, 255, 0.14);
   --font-main: var(--font-space-grotesk), sans-serif;
   --font-mono: var(--font-jetbrains-mono), monospace;
-  --foreground: #020202;
-  --text-muted: rgba(0, 0, 0, 0.5);
-  --grid-line: rgba(0, 0, 0, 0.05);
-  --text-grad-start: #000000;
-  --text-grad-mid: #27272a;
-  --text-grad-end: #71717a;
+  --foreground: #071225;
+  --text-muted: rgba(7, 18, 37, 0.62);
+  --grid-line: rgba(12, 42, 79, 0.08);
+  --text-grad-start: #08142c;
+  --text-grad-mid: #204f8e;
+  --text-grad-end: #4f83c6;
+  --bg-glow-primary: rgba(15, 111, 255, 0.16);
+  --bg-glow-secondary: rgba(8, 145, 178, 0.11);
+  --bg-gradient-top: #f9fbff;
+  --bg-gradient-bottom: #eaf1fb;
+  --flare-blend-mode: multiply;
+  --noise-opacity: 0.016;
+  --experience-border: rgba(80, 108, 140, 0.5);
+  --experience-divider: rgba(80, 108, 140, 0.56);
 }
 
 .dark {
@@ -54,15 +76,31 @@ html {
   --text-grad-start: #ffffff;
   --text-grad-mid: #ffffff;
   --text-grad-end: rgba(255, 255, 255, 0.2);
+  --bg-glow-primary: rgba(59, 130, 246, 0.1);
+  --bg-glow-secondary: rgba(16, 185, 129, 0.05);
+  --bg-gradient-top: #050505;
+  --bg-gradient-bottom: #030303;
+  --flare-blend-mode: screen;
+  --noise-opacity: 0.028;
+  --experience-border: rgba(255, 255, 255, 0.34);
+  --experience-divider: rgba(255, 255, 255, 0.4);
 }
 
 body {
   background-color: var(--bg);
+  background-image:
+    radial-gradient(120% 120% at 10% -10%, var(--bg-glow-primary) 0%, transparent 55%),
+    radial-gradient(90% 100% at 90% 0%, var(--bg-glow-secondary) 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg-gradient-top) 0%, var(--bg) 35%, var(--bg-gradient-bottom) 100%);
+  /* background-attachment: fixed removed — causes major scroll jank on iOS/mobile */
   color: var(--foreground);
   font-family: var(--font-main);
   overflow-x: hidden;
+  scrollbar-gutter: stable;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
 }
 
 .mono {
@@ -76,6 +114,15 @@ body {
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: radial-gradient(circle at var(--x, 50%) var(--y, 50%), black, transparent 80%);
+  will-change: mask-image;
+}
+
+/* On mobile, skip the mouse-follow mask (no hover/cursor anyway) */
+@media (max-width: 1023px) {
+  .grid-bg {
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent 90%);
+    will-change: auto;
+  }
 }
 
 .flare {
@@ -85,10 +132,18 @@ body {
   background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
   top: var(--y, 50%);
   left: var(--x, 50%);
-  transform: translate(-50%, -50%);
+  transform: translate3d(-50%, -50%, 0);
   pointer-events: none;
   z-index: 0;
-  mix-blend-mode: screen;
+  mix-blend-mode: var(--flare-blend-mode);
+  will-change: top, left;
+}
+
+/* Reduce or hide the flare on mobile — no cursor to follow, just wasted GPU */
+@media (max-width: 1023px) {
+  .flare {
+    display: none;
+  }
 }
 
 /* Industrial Card Design */
@@ -258,21 +313,23 @@ body {
 
 @keyframes marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .animate-marquee {
   animation: marquee 40s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .card-border {
   position: relative;
-  background: var(--grid-line);
+  background-color: var(--grid-line);
   border: 1px solid var(--border);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -327,9 +384,19 @@ body {
   position: fixed;
   inset: 0;
   background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.02;
+  opacity: var(--noise-opacity);
   pointer-events: none;
   z-index: 100;
+  /* GPU layer promotion to avoid repaints */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Reduce noise complexity on mobile for better perf */
+@media (max-width: 767px) {
+  .noise {
+    opacity: calc(var(--noise-opacity) * 0.5);
+  }
 }
 
 ::selection {

@@ -52,9 +52,9 @@ export default function ProjectsPage() {
       <div className="noise" />
       <Navbar />
 
-      <main className="pt-40 pb-32 max-w-7xl mx-auto px-6">
+      <main className="pt-28 md:pt-40 pb-20 md:pb-32 max-w-7xl mx-auto px-5 md:px-6">
         {/* Header Section */}
-        <div className="grid lg:grid-cols-2 gap-20 mb-32 items-end">
+        <div className="grid lg:grid-cols-2 gap-10 md:gap-16 lg:gap-20 mb-14 md:mb-24 lg:mb-32 items-end">
           <div className="space-y-8">
             <div className="flex items-center gap-4">
               <div className="w-12 h-[1px] bg-blue-500" />
@@ -80,7 +80,7 @@ export default function ProjectsPage() {
             A selection of systems and platforms we’ve designed and built for modern businesses.
           </motion.p>
         </div>
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="space-y-8 lg:space-y-10">
           {projects.map((project, idx) => (
             <motion.div 
               key={project.id}
@@ -90,56 +90,54 @@ export default function ProjectsPage() {
               className="group cursor-pointer"
               onClick={() => setSelectedProject(project)}
             >
-              {/* Image Section */}
-              <div className="industrial-card p-3 bg-surface-low/50 backdrop-blur-xl mb-8 border-border/30 transition-all duration-500 hover:border-blue-500/50 group-hover:bg-surface-low">
-                <div className="relative w-full aspect-[4/3] overflow-hidden rounded-sm border border-border/50 bg-[#050505]">
-                  <Image 
-                    src={project.image} 
-                    fill
-                    alt={project.title} 
-                    className="object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent" />
-                  
-                  {/* Floating ID Tag */}
-                  <div className="absolute top-4 left-4 mono text-[8px] bg-bg/80 backdrop-blur-md border border-border px-3 py-1 text-foreground/40 uppercase tracking-widest">
-                    P_TAG // 0{project.id}
-                  </div>
-                </div>
-              </div>
-              
-              {/* Detail Section */}
-              <div className="space-y-6 px-2">
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map(tag => (
-                    <span key={tag} className="mono text-[9px] text-blue-400 uppercase tracking-widest border border-blue-500/20 bg-blue-500/5 px-2 py-1 rounded-sm">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="flex justify-between items-end border-b border-border/50 pb-4">
-                    <h3 className="text-3xl md:text-4xl font-light uppercase tracking-tighter group-hover:text-blue-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <div className="text-foreground/20 group-hover:text-blue-400 transition-all">
-                      <ArrowRight size={24} className="-rotate-45 group-hover:rotate-0 transition-transform" />
+              <div className="industrial-card bg-surface-low/40 border-border/30 backdrop-blur-xl p-5 md:p-7 lg:p-8 transition-all duration-500 hover:border-blue-500/40 hover:bg-surface-low/80">
+                <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
+                  <div className="space-y-6 lg:col-span-7">
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map(tag => (
+                        <span key={tag} className="mono text-[9px] text-blue-400 uppercase tracking-widest border border-blue-500/20 bg-blue-500/5 px-2 py-1 rounded-sm">
+                          {tag}
+                        </span>
+                      ))}
                     </div>
-                  </div>
-                  <p className="text-foreground/50 font-light text-base leading-relaxed line-clamp-2">
-                    {project.description}
-                  </p>
-                </div>
 
-                {/* Progress Bar */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center mono text-[9px] text-foreground/20">
-                    <span>DEPLOYMENT_STATUS</span>
-                    <span className="text-blue-500/50">ACTIVE_REACH // 100%</span>
+                    <div className="space-y-4">
+                      <div className="flex items-end justify-between gap-4 border-b border-border/50 pb-4">
+                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-light uppercase tracking-tighter group-hover:text-blue-400 transition-colors">
+                          {project.title}
+                        </h3>
+                        <div className="shrink-0 text-foreground/20 group-hover:text-blue-400 transition-all">
+                          <ArrowRight size={26} className="-rotate-45 group-hover:rotate-0 transition-transform" />
+                        </div>
+                      </div>
+
+                      <p className="text-foreground/60 font-light text-base md:text-lg leading-relaxed max-w-2xl">
+                        {project.description}
+                      </p>
+                    </div>
+
+
                   </div>
-                  <div className="h-[2px] w-full bg-border/30 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-500 w-0 group-hover:w-full transition-all duration-1000 ease-in-out shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+
+                  <div className="lg:col-span-5">
+                    <div className="relative w-full aspect-[4/3] overflow-hidden rounded-sm border border-border/50 bg-[#050505]">
+                      <Image 
+                        src={project.image} 
+                        fill
+                        alt={project.title} 
+                        className="object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                      />
+                      {/* <div className="absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.45)]" />
+                      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent" /> */}
+
+                      <div className="absolute top-4 left-4 mono text-[8px] bg-bg/80 backdrop-blur-md border border-border px-3 py-1 text-foreground/40 uppercase tracking-widest">
+                        P_TAG // 0{project.id}
+                      </div>
+
+                      <div className="absolute bottom-4 right-4 mono text-[8px] text-blue-300/70 uppercase tracking-widest border border-blue-500/30 bg-black/40 px-3 py-1">
+                        VIEW_CASE
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -166,7 +164,7 @@ export default function ProjectsPage() {
                 alt={selectedProject.title} 
                 className="object-cover"
               />
-              <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,0.6)]" />
+              {/* <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,0.6)]" /> */}
             </div>
 
             {/* Structured Content */}

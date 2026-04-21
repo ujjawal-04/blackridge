@@ -62,7 +62,7 @@ function ProjectCard({
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.65, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] as any }}
+      transition={{ duration: 0.65, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] as const }}
       whileHover={{ y: -5, transition: { duration: 0.25 } }}
       className={`group relative glass-card overflow-hidden border border-white/[0.07] ${project.borderHover} transition-all duration-300 cursor-pointer flex flex-col h-full`}
     >
@@ -139,7 +139,7 @@ export default function ProjectsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as any }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
           className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12"
         >
           <div>
@@ -152,7 +152,7 @@ export default function ProjectsSection() {
             </h2>
           </div>
           <p className="text-slate-400 max-w-xs text-sm leading-relaxed">
-            A curated selection of products we've shipped across industries and
+            A curated selection of products we&apos;ve shipped across industries and
             scales.
           </p>
         </motion.div>

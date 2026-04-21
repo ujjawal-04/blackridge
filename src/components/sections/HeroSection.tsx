@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, Zap, Shield, Layers } from "lucide-react";
 
 // ─── Floating UI Card ─────────────────────────────────────────
@@ -20,7 +19,7 @@ function FloatingCard({
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] as any }}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
       className={`glass-card p-4 shadow-2xl shadow-black/40 ${className}`}
       style={{
         ...style,
@@ -60,7 +59,7 @@ const textVariant = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as any },
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 

@@ -68,7 +68,7 @@ export default function ProcessSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as any }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
           className="text-center mb-20"
         >
           <p className="text-xs font-medium uppercase tracking-widest text-violet-400 mb-3">
@@ -101,7 +101,7 @@ export default function ProcessSection() {
                   transition={{
                     duration: 0.65,
                     delay: i * 0.12,
-                    ease: [0.22, 1, 0.36, 1] as any,
+                    ease: [0.22, 1, 0.36, 1] as const,
                   }}
                   className="flex flex-col items-center lg:items-start text-center lg:text-left"
                 >
@@ -138,11 +138,11 @@ export default function ProcessSection() {
           className="mt-20 text-center"
         >
           <p className="text-slate-500 text-sm italic max-w-md mx-auto">
-            "The average project goes from kickoff to launch in{" "}
+            &quot;The average project goes from kickoff to launch in{" "}
             <span className="text-white not-italic font-medium">
               8–12 weeks
             </span>
-            , with weekly check-ins throughout."
+            , with weekly check-ins throughout.&quot;
           </p>
         </motion.div>
       </div>

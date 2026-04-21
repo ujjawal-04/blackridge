@@ -25,6 +25,7 @@ export const Modal: React.FC<ModalProps> = ({
   cancelLabel = 'Cancel',
   children
 }) => {
+  const logId = React.useId().replace(/[^a-zA-Z0-9]/g, '').slice(0, 6).toUpperCase();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -100,7 +101,7 @@ export const Modal: React.FC<ModalProps> = ({
 
             {/* Decor Elements */}
             <div className="absolute bottom-0 right-0 p-4 opacity-5 pointer-events-none">
-              <span className="mono text-[8px]">LOG_ID: {Math.random().toString(16).slice(2, 8).toUpperCase()}</span>
+              <span className="mono text-[8px]">LOG_ID: {logId}</span>
             </div>
           </motion.div>
         </div>

@@ -10,12 +10,23 @@ export const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // Skip on mobile — there's no cursor, and the flare/grid-bg are hidden via CSS
+    const isMobile = window.matchMedia('(max-width: 1023px)').matches;
+    if (isMobile) return;
+
+    let rafId = 0;
     const handleMove = (e: MouseEvent) => {
-      document.documentElement.style.setProperty('--x', `${e.clientX}px`);
-      document.documentElement.style.setProperty('--y', `${e.clientY}px`);
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        document.documentElement.style.setProperty('--x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--y', `${e.clientY}px`);
+      });
     };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -33,20 +44,20 @@ export const Hero = () => {
               </span> <br />
               SYSTEMS.
             </h1>
-            
+
             <p className="text-lg md:text-2xl text-foreground/50 leading-snug md:leading-tight font-light max-w-2xl mx-auto lg:mx-0">
               We design and build high-performance web platforms, AI solutions,
               and eCommerce systems that scale with your business needs. <br className="hidden md:block" />Zero lag. Infinite scale. Total control.
             </p>
-            
+
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <Link 
-                href="https://cal.com/black-ridge" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <Link
+                href="https://cal.com/black-ridge"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-primary w-full sm:w-auto text-center"
               >
-                Request quote
+                Request Quote
               </Link>
               <Link href="/about" className="mono text-[10px] font-medium tracking-widest uppercase border border-border px-8 py-4 hover:bg-foreground hover:text-bg transition-all w-full sm:w-auto text-center">
                 Learn More

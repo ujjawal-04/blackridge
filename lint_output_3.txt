@@ -1,0 +1,51 @@
+
+> devz-site@0.1.0 lint
+> eslint
+
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/app/admin/blog/page.tsx
+   41:14  warning  'err' is defined but never used           @typescript-eslint/no-unused-vars
+  130:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/app/api/auth/verify/route.ts
+  17:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/app/api/blog/route.ts
+  38:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  84:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/app/blog/page.tsx
+  6:10  warning  'motion' is defined but never used    @typescript-eslint/no-unused-vars
+  7:24  warning  'Calendar' is defined but never used  @typescript-eslint/no-unused-vars
+  7:34  warning  'User' is defined but never used      @typescript-eslint/no-unused-vars
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/app/page.tsx
+  8:10  warning  'SystemFeatureGrid' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/app/projects/page.tsx
+   5:8   warning  'Link' is defined but never used          @typescript-eslint/no-unused-vars
+   7:10  warning  'ArrowLeft' is defined but never used     @typescript-eslint/no-unused-vars
+  48:64  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/components/sections/BentoGrid.tsx
+   78:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  317:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  318:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  324:42  warning  'i' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/components/sections/DiscoveryDetail.tsx
+  4:10  warning  'ArrowRight' is defined but never used  @typescript-eslint/no-unused-vars
+  4:22  warning  'Star' is defined but never used        @typescript-eslint/no-unused-vars
+  5:10  warning  'motion' is defined but never used      @typescript-eslint/no-unused-vars
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/components/sections/Process.tsx
+  6:10  warning  'ProjectsDetail' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/yashverma/projects/Devz/Black-Ridge/src/components/sections/SystemFeatureGrid.tsx
+  4:10  warning  'Cpu' is defined but never used         @typescript-eslint/no-unused-vars
+  4:15  warning  'RefreshCcw' is defined but never used  @typescript-eslint/no-unused-vars
+  4:27  warning  'Lock' is defined but never used        @typescript-eslint/no-unused-vars
+  4:33  warning  'Network' is defined but never used     @typescript-eslint/no-unused-vars
+
+✖ 24 problems (4 errors, 20 warnings)
+

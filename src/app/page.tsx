@@ -18,9 +18,9 @@ export default function Home() {
       <main>
         <Hero />
         <Marquee />
-        <SystemFeatureGrid />
-        <Process />
         <BentoGrid />
+        {/* <SystemFeatureGrid /> */}
+        <Process />
         <Contact />
       </main>
       <Footer />

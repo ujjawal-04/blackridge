@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { 
   Users,
   Layers,
@@ -8,50 +8,66 @@ import {
   Shield,
   Activity,
   Globe,
-  Database,
-  Lock,
-  TrendingUp,
-  Cpu,
   Search,
   PenTool,
   Rocket,
-  CheckCircle2,
-  Clock
+  CheckCircle2
 } from 'lucide-react';
 
 export default function DeviceShowcase() {
-  const [tick, setTick] = useState(0);
+  // Phase cycles every 5s (0, 1, 2) — only 1 state update per 5 seconds
+  const [phase, setPhase] = useState(0);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const isMobile = useRef(false);
 
   useEffect(() => {
+    // Detect mobile once
+    isMobile.current = window.matchMedia('(max-width: 1023px)').matches;
+
     const timer = setInterval(() => {
-      setTick((prev) => (prev >= 300 ? 0 : prev + 1));
-    }, 50);
+      setPhase((prev) => (prev + 1) % 3);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
-  // 3D Hover Effect
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+  // 3D Hover Effect — desktop only, throttled via rAF
+  const rafRef = useRef<number>(0);
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (isMobile.current) return;
     
-    const rotateX = ((y - centerY) / centerY) * -5;
-    const rotateY = ((x - centerX) / centerX) * 5;
-    
-    setTilt({ x: rotateX, y: rotateY });
-  };
+    const target = e.currentTarget as HTMLElement;
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
 
-  const handleMouseLeave = () => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      const rect = target.getBoundingClientRect();
+      const x = mouseX - rect.left;
+      const y = mouseY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = ((y - centerY) / centerY) * -5;
+      const rotateY = ((x - centerX) / centerX) * 5;
+      
+      setTilt({ x: rotateX, y: rotateY });
+    });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
     setTilt({ x: 0, y: 0 });
-  };
+  }, []);
 
-  // Phase Logic (Extended to 300 ticks / 15 seconds)
-  const isStrategy = tick < 100;
-  const isEngineering = tick >= 100 && tick < 200;
-  const isLive = tick >= 200;
+  const isStrategy = phase === 0;
+  const isEngineering = phase === 1;
+  const isLive = phase === 2;
+
+  // Calculate progress values for the engineering phase
+  const progressValues = {
+    interfaceDesign: isEngineering ? 100 : 0,
+    functionalLogic: isEngineering ? 92 : 0,
+    qualityAssurance: isEngineering ? 78 : 0,
+  };
 
   return (
     <div 
@@ -62,8 +78,12 @@ export default function DeviceShowcase() {
     >
       {/* HARDWARE DEVICE CONTAINER */}
       <div 
-        className="relative w-[300px] sm:w-[340px] h-[600px] sm:h-[700px] transition-transform duration-300 ease-out z-10 origin-center lg:scale-[0.8] xl:scale-[0.9] 2xl:scale-100"
-        style={{ transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
+        className="relative w-[300px] sm:w-[340px] h-[600px] sm:h-[700px] z-10 origin-center lg:scale-[0.8] xl:scale-[0.9] 2xl:scale-100"
+        style={{ 
+          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+          transition: 'transform 0.3s ease-out',
+          willChange: 'transform',
+        }}
       >
         {/* Hardware Buttons */}
         <div className="absolute -left-[6px] top-32 w-[6px] h-12 bg-gradient-to-l from-[#111] to-[#333] rounded-l-md border-y border-l border-white/10 shadow-[-2px_0_5px_rgba(0,0,0,0.5)]" />
@@ -77,14 +97,13 @@ export default function DeviceShowcase() {
           <div className="absolute inset-[5px] bg-black rounded-[3.2rem] overflow-hidden shadow-[0_0_20px_rgba(0,0,0,1)_inset]">
             
 
-
             {/* Dynamic Island */}
             <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[110px] h-[30px] bg-black rounded-full z-[100] flex items-center justify-between px-3 border border-white/[0.08] shadow-[0_5px_10px_rgba(0,0,0,0.5)]">
                <div className="w-2.5 h-2.5 rounded-full bg-[#0a0a1a] border border-white/10 relative overflow-hidden">
                   <div className="absolute inset-0 bg-blue-500/20 blur-[1px]" />
                </div>
                <div className="flex gap-2 items-center">
-                 <div className={`w-1.5 h-1.5 rounded-full ${isLive ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 'bg-white/20'}`} />
+                 <div className={`w-1.5 h-1.5 rounded-full transition-colors duration-500 ${isLive ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 'bg-white/20'}`} />
                </div>
             </div>
 
@@ -92,7 +111,7 @@ export default function DeviceShowcase() {
             <div className="w-full h-full relative flex flex-col bg-[#050505] pt-14">
               
               {/* PHASE 1: DISCOVERY & STRATEGY */}
-              <div className={`absolute inset-0 px-6 py-14 flex flex-col transition-all duration-1000 ${isStrategy ? 'opacity-100 scale-100 z-20' : 'opacity-0 scale-95 z-0 pointer-events-none'}`}>
+              <div className={`absolute inset-0 px-6 py-14 flex flex-col transition-all duration-700 ease-out ${isStrategy ? 'opacity-100 translate-y-0 z-20' : 'opacity-0 translate-y-4 z-0 pointer-events-none'}`}>
                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full w-max mb-6">
                     <Search className="w-3.5 h-3.5 text-blue-400" />
                     <span className="text-[9px] font-bold text-blue-400 uppercase tracking-[0.2em]">01. Discovery</span>
@@ -103,31 +122,34 @@ export default function DeviceShowcase() {
                  </h2>
                  <p className="text-sm text-white/40 mb-8 leading-relaxed">We map your business goals to a high-performance digital roadmap.</p>
 
-                 {/* Strategy Cards */}
+                 {/* Strategy Cards — now use CSS transitions instead of tick-based logic */}
                  <div className="space-y-3">
                     <StrategyCard 
                       icon={<Users className="w-4 h-4" />} 
                       title="User Experience Research" 
                       desc="Understanding your customer's journey."
-                      active={tick > 20}
+                      active={isStrategy}
+                      delay="delay-[200ms]"
                     />
                     <StrategyCard 
                       icon={<Globe className="w-4 h-4" />} 
                       title="Market Positioning" 
                       desc="Analysis of your competitive landscape."
-                      active={tick > 50}
+                      active={isStrategy}
+                      delay="delay-[600ms]"
                     />
                     <StrategyCard 
                       icon={<Layers className="w-4 h-4" />} 
                       title="Product Roadmap" 
                       desc="A phased plan for scalable growth."
-                      active={tick > 80}
+                      active={isStrategy}
+                      delay="delay-[1000ms]"
                     />
                  </div>
               </div>
 
               {/* PHASE 2: DESIGN & CRAFTSMANSHIP */}
-              <div className={`absolute inset-0 px-6 py-14 flex flex-col transition-all duration-1000 ${isEngineering ? 'opacity-100 scale-100 z-20' : 'opacity-0 scale-95 z-0 pointer-events-none'}`}>
+              <div className={`absolute inset-0 px-6 py-14 flex flex-col transition-all duration-700 ease-out ${isEngineering ? 'opacity-100 translate-y-0 z-20' : 'opacity-0 translate-y-4 z-0 pointer-events-none'}`}>
                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-full w-max mb-6">
                     <PenTool className="w-3.5 h-3.5 text-amber-400" />
                     <span className="text-[9px] font-bold text-amber-400 uppercase tracking-[0.2em]">02. Craftsmanship</span>
@@ -138,22 +160,22 @@ export default function DeviceShowcase() {
                  </h2>
                  <p className="text-sm text-white/40 mb-8 leading-relaxed">Meticulous design meets world-class engineering standards.</p>
 
-                 {/* Engineering Steps */}
+                 {/* Engineering Steps — CSS transition driven */}
                  <div className="space-y-4">
                     <ProgressRow 
                        label="Interface Design" 
                        value="100%" 
-                       progress={Math.min(100, (tick - 100) * 8)} 
+                       progress={progressValues.interfaceDesign} 
                     />
                     <ProgressRow 
                        label="Functional Logic" 
                        value="92%" 
-                       progress={Math.min(100, (tick - 110) * 6)} 
+                       progress={progressValues.functionalLogic} 
                     />
                     <ProgressRow 
                        label="Quality Assurance" 
                        value="Running" 
-                       progress={Math.max(0, Math.min(100, (tick - 130) * 4))} 
+                       progress={progressValues.qualityAssurance}
                     />
                  </div>
 
@@ -177,7 +199,7 @@ export default function DeviceShowcase() {
               </div>
 
               {/* PHASE 3: GROWTH & RESULTS */}
-              <div className={`absolute inset-0 transition-all duration-1000 ${isLive ? 'opacity-100 z-20' : 'opacity-0 translate-y-8 z-0 pointer-events-none'}`}>
+              <div className={`absolute inset-0 transition-all duration-700 ease-out ${isLive ? 'opacity-100 translate-y-0 z-20' : 'opacity-0 translate-y-4 z-0 pointer-events-none'}`}>
                  <div className="h-full w-full flex flex-col bg-[#000]">
                     {/* Header */}
                     <div className="pt-14 pb-4 px-6 border-b border-white/10 flex justify-between items-end bg-[#050505]">
@@ -240,24 +262,15 @@ export default function DeviceShowcase() {
           </div>
         </div>
       </div>
-
-
-      {/* Custom Styles for inline animations */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes slide {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(300%); }
-        }
-      `}} />
     </div>
   );
 }
 
 // --- Internal UI Components ---
 
-function StrategyCard({ icon, title, desc, active }: { icon: React.ReactNode, title: string, desc: string, active: boolean }) {
+function StrategyCard({ icon, title, desc, active, delay }: { icon: React.ReactNode, title: string, desc: string, active: boolean, delay: string }) {
   return (
-    <div className={`p-4 rounded-xl border transition-all duration-700 ${active ? 'bg-white/[0.04] border-white/10 translate-x-0' : 'bg-transparent border-transparent opacity-0 translate-x-4'}`}>
+    <div className={`p-4 rounded-xl border transition-all duration-700 ${delay} ${active ? 'bg-white/[0.04] border-white/10 translate-x-0 opacity-100' : 'bg-transparent border-transparent opacity-0 translate-x-4'}`}>
        <div className="flex gap-4 items-start">
           <div className="mt-1 p-2 rounded-lg bg-blue-500/10 text-blue-400">
              {icon}
@@ -280,7 +293,7 @@ function ProgressRow({ label, value, progress }: { label: string, value: string,
        </div>
        <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
           <div 
-             className="h-full bg-amber-500 transition-all duration-300 ease-out shadow-[0_0_8px_rgba(245,158,11,0.5)]" 
+             className="h-full bg-amber-500 transition-all duration-[1.5s] ease-out shadow-[0_0_8px_rgba(245,158,11,0.5)]" 
              style={{ width: `${progress}%` }} 
           />
        </div>
@@ -303,7 +316,7 @@ function ResultRow({ icon, label, sub }: { icon: React.ReactNode, label: string,
   );
 }
 
-function NavIcon({ icon, label, active, color }: { icon: React.ReactElement<any>, label: string, active: boolean, color: 'blue' | 'amber' | 'emerald' }) {
+function NavIcon({ icon, label, active, color }: { icon: React.ReactElement<{ size?: number; strokeWidth?: number }>, label: string, active: boolean, color: 'blue' | 'amber' | 'emerald' }) {
   const colors = {
     blue: 'text-blue-400',
     amber: 'text-amber-400',
@@ -316,7 +329,7 @@ function NavIcon({ icon, label, active, color }: { icon: React.ReactElement<any>
           {React.cloneElement(icon, { 
             size: 18, 
             strokeWidth: active ? 2.5 : 2 
-          } as any)}
+          })}
        </div>
        <span className={`text-[8px] font-bold uppercase tracking-[0.15em] ${active ? colors[color] : 'text-white/40'}`}>{label}</span>
        <div className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full transition-opacity duration-300 ${active ? 'opacity-100 ' + (color === 'blue' ? 'bg-blue-500' : color === 'amber' ? 'bg-amber-500' : 'bg-emerald-500') : 'opacity-0'}`} />
@@ -324,17 +337,3 @@ function NavIcon({ icon, label, active, color }: { icon: React.ReactElement<any>
   );
 }
 
-function PhasePill({ active, text, dot }: { active: boolean, text: string, dot: 'blue' | 'amber' | 'emerald' }) {
-  const dots = {
-    blue: 'bg-blue-500',
-    amber: 'bg-amber-500',
-    emerald: 'bg-emerald-500'
-  };
-  
-  return (
-    <div className={`px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-500 flex items-center gap-2 ${active ? 'bg-white text-black shadow-[0_0_30px_rgba(255,255,255,0.1)]' : 'text-white/30'}`}>
-       <div className={`w-1 h-1 rounded-full ${dots[dot]} ${active ? 'animate-pulse' : 'opacity-40'}`} />
-       {text}
-    </div>
-  );
-}

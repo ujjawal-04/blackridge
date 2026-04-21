@@ -8,15 +8,10 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 
-export default function Navbar() {
+function Clock({ className = "mono text-xl text-foreground font-medium" }: { className?: string }) {
   const [time, setTime] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const { resolvedTheme, setTheme } = useTheme();
-  const pathname = usePathname();
-
+  
   useEffect(() => {
-    setMounted(true);
     const timeFormatter = new Intl.DateTimeFormat(undefined, {
       hour: '2-digit',
       minute: '2-digit',
@@ -32,6 +27,26 @@ export default function Navbar() {
     updateTime();
     const timer = setInterval(updateTime, 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  return <span className={className}>{time || '00:00:00_LOCAL'}</span>;
+}
+
+export default function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    setMounted(true);
   }, []);
 
   const navLinks = [
@@ -116,7 +131,7 @@ export default function Navbar() {
         <div className="ml-auto flex items-center gap-4 md:gap-8 lg:gap-12">
           <div className="hidden sm:flex items-center gap-4 border-x border-border px-8 h-12">
             <span className="mono text-[9px] text-foreground/30 uppercase tracking-widest">Local_Time</span>
-            <span className="mono text-[10px] text-foreground/70 tabular-nums shrink-0">{time || '00:00:00_LOCAL'}</span>
+            <Clock className="mono text-[10px] text-foreground/70 tabular-nums shrink-0" />
           </div>
 
           <button
@@ -137,10 +152,20 @@ export default function Navbar() {
           </Link>
 
           <button
-            className="lg:hidden p-2 text-foreground/60 hover:text-foreground transition-colors"
+            className="lg:hidden p-2 text-foreground relative z-[100]"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isMenuOpen ? 'close' : 'open'}
+                initial={{ opacity: 0, rotate: -45, scale: 0.8 }}
+                animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                exit={{ opacity: 0, rotate: 45, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </motion.div>
+            </AnimatePresence>
           </button>
         </div>
       </nav>
@@ -148,51 +173,83 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[90] bg-bg pt-32 px-10 lg:hidden"
-          >
-            <div className="space-y-12">
-              <div className="space-y-8">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="block text-4xl font-light uppercase tracking-tighter text-foreground hover:text-blue-500 transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
+          <div className="fixed inset-0 z-[90] lg:hidden">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="absolute inset-0 bg-black/40"
+              onClick={() => setIsMenuOpen(false)}
+            />
 
-              <div className="pt-12 border-t border-border space-y-8">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-2">
-                    <p className="mono text-[10px] text-foreground/30 uppercase tracking-widest">Local_Time</p>
-                    <p className="mono text-xl text-foreground font-medium">{time || '00:00:00_LOCAL'}</p>
-                  </div>
-                  <button
-                    onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-                    className="flex items-center justify-center w-12 h-12 border border-border text-foreground hover:bg-foreground hover:text-bg transition-colors"
-                  >
-                    {mounted && (resolvedTheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />)}
-                  </button>
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ 
+                type: 'spring',
+                damping: 30,
+                stiffness: 300,
+                mass: 1,
+              }}
+              className="absolute inset-y-0 right-0 w-full bg-bg/95 backdrop-blur-xl pt-32 px-10 overflow-y-auto border-l border-white/5"
+              style={{ willChange: 'transform, opacity', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
+            >
+              <div className="space-y-12">
+                <div className="space-y-6">
+                  {navLinks.map((link, i) => (
+                    <motion.div
+                      key={link.label}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ 
+                        duration: 0.4, 
+                        delay: 0.15 + i * 0.05, 
+                        ease: 'easeOut' 
+                      }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block text-5xl font-light uppercase tracking-tighter text-foreground hover:text-blue-500 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  ))}
                 </div>
-                <Link
-                  href="/#contact"
-                  onClick={handleScroll}
-                  className="btn-os w-full justify-center text-xs py-3"
+
+                <motion.div 
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.45 }}
+                  className="pt-12 border-t border-border space-y-8"
                 >
-                  Discuss Project
-                  <ArrowRight size={16} />
-                </Link>
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-2">
+                      <p className="mono text-[10px] text-foreground/30 uppercase tracking-widest">Local_Time</p>
+                      <Clock />
+                    </div>
+                    <button
+                      onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+                      className="flex items-center justify-center w-12 h-12 border border-border text-foreground hover:bg-foreground hover:text-bg transition-colors"
+                    >
+                      {mounted && (resolvedTheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />)}
+                    </button>
+                  </div>
+                  <Link
+                    href="/#contact"
+                    onClick={handleScroll}
+                    className="btn-os w-full justify-center text-xs py-3"
+                  >
+                    Discuss Project
+                    <ArrowRight size={16} />
+                  </Link>
+                </motion.div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </>

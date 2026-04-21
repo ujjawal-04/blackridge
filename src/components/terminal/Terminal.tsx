@@ -52,15 +52,10 @@ export const Terminal = () => {
     { text: "✓ Deployment Ready", highlight: true }
   ];
 
-  const [commandFinished, setCommandFinished] = useState(false);
   const commandEffect = useTerminalSequence([{ text: commandLine, delay: 600 }], 1500);
 
-  useEffect(() => {
-    if (commandEffect.totalCompleted) setCommandFinished(true);
-  }, [commandEffect.totalCompleted]);
-
   const logEffect = useTerminalSequence(logLines, 0);
-  const activeLogEffect = commandFinished ? logEffect : { completedLines: [], typingLine: null, totalCompleted: false };
+  const activeLogEffect = commandEffect.totalCompleted ? logEffect : { completedLines: [], typingLine: null, totalCompleted: false };
 
   return (
     <div className="relative group perspective-[2000px] w-full max-w-2xl mx-auto lg:mx-0">
@@ -91,7 +86,7 @@ export const Terminal = () => {
             <span className="text-accent shrink-0">➜</span>
             <span className="text-foreground/90">
               {commandEffect.completedLines.length > 0 ? commandLine : commandEffect.typingLine}
-              {(!commandFinished || (commandFinished && activeLogEffect.totalCompleted)) && (
+              {(!commandEffect.totalCompleted || (commandEffect.totalCompleted && activeLogEffect.totalCompleted)) && (
                 <motion.span
                   animate={{ opacity: [1, 0] }}
                   transition={{ repeat: Infinity, duration: 0.8 }}
@@ -132,7 +127,7 @@ export const Terminal = () => {
             <div className="h-1 w-24 bg-foreground/10 rounded-full overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
-                animate={commandFinished ? { width: '100%' } : {}}
+                animate={commandEffect.totalCompleted ? { width: '100%' } : {}}
                 transition={{ duration: 3 }}
                 className="h-full bg-accent/40"
               />

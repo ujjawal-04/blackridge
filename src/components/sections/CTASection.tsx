@@ -21,7 +21,7 @@ export default function CTASection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as any }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
           className="relative glass-card border border-white/[0.08] p-12 md:p-20 text-center overflow-hidden"
         >
           {/* Inner glow */}
@@ -38,7 +38,7 @@ export default function CTASection() {
 
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-widest text-violet-400 mb-5">
-              Let's Talk
+              Let&apos;s Talk
             </p>
 
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-light text-white tracking-tight leading-[1.1] mb-6">
@@ -76,7 +76,7 @@ export default function CTASection() {
 
             {/* Reassurance text */}
             <p className="mt-8 text-xs text-slate-600">
-              Typically respond within 4 hours · No commitments until you're ready
+              Typically respond within 4 hours · No commitments until you&apos;re ready
             </p>
           </div>
         </motion.div>

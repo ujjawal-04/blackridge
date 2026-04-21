@@ -78,7 +78,7 @@ const cardVariants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as any },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
   },
 };
 
@@ -101,7 +101,7 @@ export default function ServicesSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as any }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
           className="text-center mb-16"
         >
           <p className="text-xs font-medium uppercase tracking-widest text-violet-400 mb-3">
@@ -112,7 +112,7 @@ export default function ServicesSection() {
             <span className="gradient-text">covered</span>
           </h2>
           <p className="mt-4 text-slate-400 max-w-xl mx-auto text-base leading-relaxed">
-            We don't do cookie-cutter. Every engagement starts with deep
+            We don&apos;t do cookie-cutter. Every engagement starts with deep
             discovery and ends with software your team is proud of.
           </p>
         </motion.div>

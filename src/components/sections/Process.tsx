@@ -1,73 +1,66 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
-import { ArrowRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 import { DiscoveryDetail } from '@/components/sections/DiscoveryDetail';
+import { ExperienceSpotlight } from '@/components/sections/ExperienceSpotlight';
 import { ProjectsDetail } from '@/components/sections/ProjectsDetail';
 import { EngineeringDetail } from '@/components/sections/EngineeringDetail';
 import { FaqDetail } from '@/components/sections/FaqDetail';
 
 export const Process = () => {
-  const [activeStep, setActiveStep] = useState(-1);
-  const steps = ["Discovery", "Our Projects", "Engineering", "FAQs"];
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = (i: number) => {
-    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-    hoverTimeoutRef.current = setTimeout(() => {
-      setActiveStep(i);
-    }, 150);
-  };
-
-  const handleMouseLeave = () => {
-    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-  };
+  const steps = [
+    { title: "Engineering", content: <EngineeringDetail />, accent: "from-sky-500/20 via-blue-500/15 to-cyan-300/10", inline: false },
+    // { title: "Our Projects", content: <ProjectsDetail />, accent: "from-indigo-500/20 via-blue-500/15 to-sky-400/10", inline: false },
+    { title: "Discovery", content: <DiscoveryDetail />, accent: "from-blue-500/25 via-blue-400/15 to-cyan-400/10", inline: false },
+    { title: "Experience", content: <ExperienceSpotlight />, accent: "from-amber-200/15 via-zinc-200/10 to-white/5", inline: false },
+    { title: "FAQs", content: <FaqDetail />, accent: "from-cyan-500/20 via-blue-500/15 to-blue-300/10", inline: true },
+  ];
 
   return (
-    <section id="lab" className="py-32 bg-bg border-y border-border relative z-10">
+    <section id="lab" className="py-20 md:py-24 bg-bg border-y border-border relative z-10">
       <div className="max-w-7xl mx-auto px-6">
         <div className="space-y-0">
-          {steps.map((step, i) => (
-            <div key={step}>
-              <div
-                onClick={() => {
-                  if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-                  setActiveStep(activeStep === i ? -1 : i);
-                }}
-                onMouseEnter={() => handleMouseEnter(i)}
-                onMouseLeave={handleMouseLeave}
-                className="group flex items-center justify-between border-b border-border py-8 md:py-12 cursor-pointer gap-4 transition-all duration-[1200ms]"
-              >
-                <div className="flex items-center gap-4 md:gap-12 overflow-hidden">
-                  <span className="mono text-foreground/30 text-lg md:text-xl font-medium shrink-0">0{i + 1}</span>
-                  <h3 className={`text-2xl sm:text-4xl md:text-7xl font-light uppercase tracking-tighter transition-colors duration-[1200ms] truncate ${activeStep === i ? 'text-blue-400' : 'group-hover:text-blue-400'}`}>
-                    {step}
-                  </h3>
-                </div>
-                <div className={`transition-transform duration-[1200ms] ${activeStep === i ? 'rotate-90 text-blue-400' : 'text-foreground/10 group-hover:text-foreground group-hover:translate-x-4'}`}>
-                  <ArrowRight className="w-6 h-6 md:w-10 md:h-10 shrink-0" />
+          {steps.map((step, i) =>
+            step.inline ? (
+              /* Inline (side-by-side) layout — used for FAQs */
+              <div key={step.title} className="group mt-6">
+                <div className="relative flex flex-col lg:flex-row lg:gap-16 lg:items-start pt-6 md:pt-8">
+                  {/* Left: step label + title */}
+                  <div className="flex lg:flex-col items-center lg:items-start gap-4 lg:gap-3 lg:w-56 shrink-0 mb-6 lg:mb-0">
+                    <span className="mono shrink-0 rounded-sm border border-white/10 bg-white/[0.02] px-2.5 py-1 text-sm md:text-base font-medium tracking-[0.18em] text-foreground/55">
+                      0{i + 1}
+                    </span>
+                    <h3 className="text-2xl sm:text-4xl md:text-7xl font-light uppercase tracking-[-0.03em] text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-blue-400 to-sky-300">
+                      {step.title}
+                    </h3>
+                  </div>
+
+                  {/* Right: content (no separator) */}
+                  <div className="flex-1 min-w-0">
+                    {step.content}
+                  </div>
                 </div>
               </div>
+            ) : (
+              /* Default stacked layout */
+              <div key={step.title} className="group">
+                <div className="relative flex items-center justify-between border-b border-border/90 dark:border-white/15 py-6 md:py-8 gap-4">
+                  <div className="relative flex items-center gap-4 md:gap-10 overflow-hidden">
+                    <span className="mono shrink-0 rounded-sm border border-white/10 bg-white/[0.02] px-2.5 py-1 text-sm md:text-base font-medium tracking-[0.18em] text-foreground/55">
+                      0{i + 1}
+                    </span>
+                    <h3 className="truncate text-2xl sm:text-4xl md:text-7xl font-light uppercase tracking-[-0.03em] text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-blue-400 to-sky-300">
+                      {step.title}
+                    </h3>
+                  </div>
+                </div>
 
-              <AnimatePresence>
-                {activeStep === i && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 1.2, ease: [0.65, 0, 0.35, 1] }}
-                    className="overflow-hidden"
-                  >
-                    {step === "Discovery" && <DiscoveryDetail />}
-                    {step === "Our Projects" && <ProjectsDetail />}
-                    {step === "Engineering" && <EngineeringDetail />}
-                    {step === "FAQs" && <FaqDetail />}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
+                <div className="overflow-hidden">
+                  {step.content}
+                </div>
+              </div>
+            )
+          )}
         </div>
       </div>
     </section>

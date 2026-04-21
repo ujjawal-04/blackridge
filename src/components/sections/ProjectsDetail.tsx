@@ -27,8 +27,8 @@ const projects = [
 
 export const ProjectsDetail = () => {
   return (
-    <div className="py-20">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+    <div className="py-10 md:py-14">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-10 gap-6">
         <div className="space-y-4">
           <h2 className="text-3xl md:text-5xl font-light tracking-tighter uppercase">SELECTED <span className="text-blue-400 italic">WORK</span></h2>
           <p className="text-foreground/50 max-w-xl font-light text-lg">A selection of systems and platforms we’ve designed and built for modern businesses.</p>
@@ -38,7 +38,7 @@ export const ProjectsDetail = () => {
         </Link>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+      <div className="grid md:grid-cols-2 gap-6 md:gap-8">
         {projects.map((project, idx) => (
           <motion.div
             key={project.id}
