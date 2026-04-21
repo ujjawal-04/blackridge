@@ -27,13 +27,13 @@ export const DiscoveryDetail = () => {
       </div>
 
       {/* Right Column: Visuals */}
-      <div className="relative flex items-start justify-center lg:justify-end w-full lg:-mt-20 xl:-mt-24">
-        <div className="relative w-full max-w-[600px] aspect-[4/5] self-start drop-shadow-2xl">
+      <div className="relative flex items-start justify-center lg:justify-end w-full lg:pt-8 xl:pt-10">
+        <div className="relative w-full max-w-[650px] aspect-video sm:aspect-square lg:aspect-[4/3] self-start drop-shadow-2xl">
           <Image
-            src="/image1.png"
+            src="/discovery.png"
             fill
             alt="Aura Systems Mockups"
-            className="object-contain object-top lg:object-[right_top]"
+            className="object-contain"
             priority
           />
         </div>

@@ -47,7 +47,8 @@ export const Hero = () => {
 
             <p className="text-lg md:text-2xl text-foreground/50 leading-snug md:leading-tight font-light max-w-2xl mx-auto lg:mx-0">
               We design and build high-performance web platforms, AI solutions,
-              and eCommerce systems that scale with your business needs. <br className="hidden md:block" />Zero lag. Infinite scale. Total control.
+              and eCommerce systems that scale with your business needs.
+              <br className="hidden md:block" />Zero lag. Infinite scale. Total control.
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
